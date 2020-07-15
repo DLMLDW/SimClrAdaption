@@ -46,8 +46,7 @@ def train_step(xis, xjs, model, optimizer, criterion, temperature, BATCH_SIZE):
 
             logits = tf.concat([l_pos, l_neg], axis=1)
             loss += criterion(y_pred=logits, y_true=labels)
-
-        loss = loss / (2 * BATCH_SIZE)
+        loss = loss / (2. * BATCH_SIZE)
 
     gradients = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
@@ -68,11 +67,10 @@ def train_simclr(model, dataset, optimizer, criterion, BATCH_SIZE, epochs,
 
             loss = train_step(a, b, model, optimizer, criterion, temperature, BATCH_SIZE)
             step_wise_loss.append(loss)
-            logging.info({"epoch loss": np.mean(loss)})
+            #print("epoch: {} loss: {:.3f}".format(epoch + 1, loss))
         epoch_wise_loss.append(np.mean(step_wise_loss))
-        logging.info({"nt_xentloss": np.mean(step_wise_loss)})
 
-        if epoch % 10 == 0:
+        if epoch % 2 == 0:
             print("epoch: {} loss: {:.3f}".format(epoch + 1, np.mean(step_wise_loss)))
 
     return epoch_wise_loss, model

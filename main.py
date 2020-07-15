@@ -16,13 +16,13 @@ import datetime
 print(tf.__version__)
 import os
 
-Batch_size = 1
+Batch_size = 2
 #Resize images during import to these dimensions
 Image_dimensions = (512,512,3)
 #Number of epochs to train
 epochs = 30
 #Specify the path to the images here:
-train_images = list(glob.glob(os.getcwd() +"/Allimages_small/*"))
+train_images = list(glob.glob(os.getcwd() +"/Allimages/*"))
 print(len(train_images))
 
 data_augmentation = Sequential([Lambda(CustomAugment())])
